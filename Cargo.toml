@@ -27,3 +27,6 @@ format_plaintext = []
 [dependencies]
 sys-info = { version = "0.7", optional = true }
 snailquote = "0.3"
+
+[build-dependencies]
+vergen = { version = "4.2", default-features = false, features = ["git"] }

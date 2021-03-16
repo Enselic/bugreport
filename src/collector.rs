@@ -59,9 +59,10 @@ impl Collector for SoftwareVersion {
 
     fn collect(&mut self, crate_info: &CrateInfo) -> Result<ReportEntry> {
         Ok(ReportEntry::Text(format!(
-            "{} {}",
+            "{} {} {}",
             crate_info.pkg_name,
-            self.version.as_deref().unwrap_or(&crate_info.pkg_version)
+            self.version.as_deref().unwrap_or(&crate_info.pkg_version),
+            option_env!("VERGEN_GIT_SHA_SHORT").unwrap_or(""),
         )))
     }
 }
