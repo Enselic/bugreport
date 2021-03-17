@@ -18,4 +18,10 @@ fn main() {
             std::env::var(var).unwrap_or_else(|_| "unknown".into())
         );
     }
+
+    println!(
+        "my working directory is {:?}",
+        std::env::current_dir().unwrap(),
+    );
+
 }
