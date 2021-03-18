@@ -33,7 +33,7 @@ pub trait Collector {
     fn collect(&mut self, crate_info: &CrateInfo) -> Result<ReportEntry>;
 }
 
-/// The name of your crate and the current version.
+/// The name of your crate, the current version, and current git hash
 pub struct SoftwareVersion {
     version: Option<String>,
 }
@@ -58,10 +58,16 @@ impl Collector for SoftwareVersion {
     }
 
     fn collect(&mut self, crate_info: &CrateInfo) -> Result<ReportEntry> {
+        let git_hash_suffix = match option_env!("BUGREPORT_GIT_HASH_SHORT") {
+            Some(git_hash) => format!(" ({})", git_hash),
+            None => String::from(""),
+        };
+
         Ok(ReportEntry::Text(format!(
-            "{} {}",
+            "{} {}{}",
             crate_info.pkg_name,
-            self.version.as_deref().unwrap_or(&crate_info.pkg_version)
+            self.version.as_deref().unwrap_or(&crate_info.pkg_version),
+            git_hash_suffix,
         )))
     }
 }
